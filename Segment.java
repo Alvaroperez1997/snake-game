@@ -33,16 +33,27 @@ public class Segment
     {
         Pen pen = new Pen(posicionX, posicionY, lienzo);
         pen.setColor(color);
-        pen.turn(direccion);
+        pen.turnTo(direccion);
         pen.move(LONGITUD_SEGMENTO);
     }
     
-    public void borrar(){
+    /**
+     * Borra el segmento
+     */
+    public void borrar(Canvas lienzo){
         int a;
     }
     
     /**
-     * Devuelve la posicion inicial del segmento
+     * Devuelve la direccion del segmento
+     */
+    public int getDireccion(){
+        int direc = direccion;
+        return direc;
+    }
+    
+    /**
+     * Devuelve la posicion inicial X del segmento
      */
     public int getPosicionInicialX(){
         int posInX = posicionX;
@@ -50,7 +61,7 @@ public class Segment
     }
     
     /**
-     * Devuelve la posicion inicial del segmento
+     * Devuelve la posicion inicial Y del segmento
      */
     public int getPosicionInicialY(){
         int posInY = posicionY;
@@ -58,18 +69,36 @@ public class Segment
     }
     
     /**
-     * Devuelve la posicion inicial del segmento
+     * Devuelve la posicion final X del segmento
      */
     public int getPosicionFinalX(){
-        int posInX = posicionX + LONGITUD_SEGMENTO;
+        int posInX = posicionX;
+        if (direccion == 0 || direccion == 180) {
+            posInX = posInX + LONGITUD_SEGMENTO;
+        }
         return posInX;
     }
     
     /**
-     * Devuelve la posicion inicial del segmento
+     * Devuelve la posicion final Y del segmento
      */
     public int getPosicionFinalY(){
-        int posInY = posicionY + LONGITUD_SEGMENTO;
+        int posInY = posicionY;
+        if (direccion == 90 || direccion == 270) {
+            posInY = posInY + LONGITUD_SEGMENTO;
+        }
         return posInY;
+    }
+    
+    /**
+     * Devuelve true si el segmento colisiona con un segmento
+     * devuelve false si no colisiona con nada
+     */
+    public boolean colisionaCon(Segment segmento){
+        boolean colisiona = false;
+        if (getPosicionFinalX() == segmento.getPosicionFinalX() && getPosicionFinalY() == segmento.getPosicionFinalY()) {
+            colisiona = true;
+        }
+        return colisiona;
     }
 }
