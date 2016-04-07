@@ -32,6 +32,16 @@ public class SnakeGame
         snake.dibujar(lienzo);
     }
     
-    
-    
+    /**
+     * lleva a cabo una animacion de la serpiente que se mueve aleatoriamente
+     * por la pantalla
+     */
+    public void animateSnake()
+    {
+        snake.dibujar(lienzo);
+        do {
+            snake.borrar(lienzo);
+            snake.dibujar(lienzo);
+        }while(snake.mover());
+    }
 }
