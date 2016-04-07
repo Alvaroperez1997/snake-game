@@ -1,22 +1,21 @@
 import java.awt.Color;
-import java.util.Random;
+
 /**
- * Write a description of class Segment here.
+ * Clase Segment
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author Miguel Bayon
+ * @version 1.0
  */
 public class Segment
 {
-    // instance variables - replace the example below with your own
     private int posicionX;
     private int posicionY;
     private int direccion;
     private Color color;
-    private int LONGITUD_SEGMENTO = 4;
+    public static final int LONGITUD_SEGMENTO = 10;
 
-    /**
-     * Constructor for objects of class Segment
+    /*
+     * Constructor de la clase Segment
      */
     public Segment(int posX, int posY, int direccion, Color color)
     {
@@ -26,79 +25,87 @@ public class Segment
         this.color = color;
     }
 
-    /**
-     * dibuja un segmento en el lienzo indicado por parametro
+    /*
+     * Devuelve la coordenada del eje X donde acaba el segmento
+     */
+    public int getPosicionFinalX()
+    {
+        int posicionFinalX = posicionX;
+        if(direccion == 0){
+            posicionFinalX = posicionX + LONGITUD_SEGMENTO;
+        }
+        else if(direccion == 180){
+            posicionFinalX = posicionX - LONGITUD_SEGMENTO;
+        }
+        return posicionFinalX;
+    }
+
+    /*
+     * Devuelve la coordenada del eje Y donde acaba el segmento
+     */
+    public int getPosicionFinalY()
+    {
+        int finaly = posicionY;
+        if (direccion == 90)
+        {
+            finaly = posicionY + LONGITUD_SEGMENTO;
+        }
+        else if(direccion == 270)
+        {
+            finaly = posicionY - LONGITUD_SEGMENTO;
+        }
+        return finaly;
+    }
+
+    /*
+     * Dibuja el segmento en el lienzo
      */
     public void dibujar(Canvas lienzo)
     {
-        Pen pen = new Pen(posicionX, posicionY, lienzo);
-        pen.setColor(color);
-        pen.turnTo(direccion);
-        pen.move(LONGITUD_SEGMENTO);
+        lienzo.setForegroundColor(color);
+        lienzo.drawLine(posicionX,posicionY,getPosicionFinalX(),getPosicionFinalY());
     }
-    
-    /**
-     * Borra el segmento
+
+    /*
+     * Borra el segmento del lienzo
      */
-    public void borrar(Canvas lienzo){
-        int a;
+    public void borrar(Canvas lienzo)
+    {
+        lienzo.setForegroundColor(lienzo.getBackgroundColor());
+        lienzo.drawLine(posicionX,posicionY,getPosicionFinalX(),getPosicionFinalY());
     }
-    
-    /**
-     * Devuelve la direccion del segmento
+
+    /*
+     * Devuelve la coordenada del eje X donde empieza el segmento
      */
-    public int getDireccion(){
-        int direc = direccion;
-        return direc;
+    public int getPosicionInicialX()
+    {
+        return posicionX;
     }
-    
-    /**
-     * Devuelve la posicion inicial X del segmento
+
+    /*
+     * Devuelve la coordenada del eje Y donde empieza el segmento
      */
-    public int getPosicionInicialX(){
-        int posInX = posicionX;
-        return posInX;
+    public int getPosicionInicialY()
+    {
+        return posicionY;
+    }    
+
+    /*
+     * Devuelve la direccion que tiene el segmento
+     */
+    public int getDireccion()
+    {
+        return direccion;
     }
-    
-    /**
-     * Devuelve la posicion inicial Y del segmento
+
+    /*
+     * Devuelve true si el segmento pasado como parametro colisiona con el segmento sobre el
+     * que se invoca el metodo, teniendo en cuenta que el pasado como parametro se supone que
+     * es un nuevo segmento de la serpiente; false en otro caso
      */
-    public int getPosicionInicialY(){
-        int posInY = posicionY;
-        return posInY;
-    }
-    
-    /**
-     * Devuelve la posicion final X del segmento
-     */
-    public int getPosicionFinalX(){
-        int posInX = posicionX;
-        if (direccion == 0 || direccion == 180) {
-            posInX = posInX + LONGITUD_SEGMENTO;
-        }
-        return posInX;
-    }
-    
-    /**
-     * Devuelve la posicion final Y del segmento
-     */
-    public int getPosicionFinalY(){
-        int posInY = posicionY;
-        if (direccion == 90 || direccion == 270) {
-            posInY = posInY + LONGITUD_SEGMENTO;
-        }
-        return posInY;
-    }
-    
-    /**
-     * Devuelve true si el segmento colisiona con un segmento
-     * devuelve false si no colisiona con nada
-     */
-    public boolean colisionaCon(Segment segmento){
-        boolean colisiona = false;
-        if (getPosicionFinalX() == segmento.getPosicionFinalX() && getPosicionFinalY() == segmento.getPosicionFinalY()) {
-            colisiona = true;
-        }
-        return colisiona;
+    public boolean colisiona(Segment segmento)
+    {
+        return (posicionX == segmento.getPosicionFinalX() && posicionY == segmento.getPosicionFinalY());
     }
 }
